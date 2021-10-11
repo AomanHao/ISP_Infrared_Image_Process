@@ -1,1 +1,2 @@
-# ISP-Infrared-Image
+Some infrared image processing algorithms
+
