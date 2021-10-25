@@ -21,8 +21,8 @@ data_type = 'bmp'; % raw: raw data
                     %bmp: bmp data
 conf.save_file = '.\result\';
 
-flag_win_mean = 0; %局部窗口均值处理
-flag_bilateral = 0; %双边滤波分离条纹噪声
+flag_win_mean = 1; %局部窗口均值处理
+flag_bilateral = 1; %双边滤波分离条纹噪声
 flag_win_mean_LP = 0; %窗口均值分离高频信息
 
 
@@ -31,17 +31,7 @@ conf.noise_type = 'colstripe';% rowstripe or colstripe，
 for i = 1:img_num
     switch data_type
         case 'raw'
-            filename = [pathname,img_name{i+2}];
-            imgname = split(img_name{i+2},'.');
-            imgname = imgname{1};
-            fid = fopen(filename,'r');
-            data0 = fread(fid,'uint8');
-            img = reshape(data0,n_img,m_img);
-            img=img';
-            
-            name_str = regexp(imgname,'\d*\.?\d*','match');
-            conf.gain = str2double(name_str{1});conf.time = name_str{2};
-            conf.gainindex = conf.gain/6+1;
+
         case 'bmp'
             name = split(img_name{i+2},'.');
             conf.imgname = name{1};
@@ -69,6 +59,8 @@ for i = 1:img_num
     end
     %% 双边滤波处理
     if flag_bilateral == 1
+        conf.w     = 2;       % bilateral filter half-width
+        conf.sigma = [3 0.1]; % bilateral filter standard deviations
         img_out = DeSN_LP_bilateral(img_gray,conf);
     end
     

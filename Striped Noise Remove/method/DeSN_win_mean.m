@@ -12,7 +12,7 @@ mid_size = floor(win_size^2/2)+1;
 img_out = img;
 thr = win_radius+1;
 sigma = conf.sigma;
-
+img_out = img;
 %%
 for  i1 = 1 +win_radius: m - win_radius
     for j1 =  1+ win_radius:n - win_radius
@@ -38,7 +38,7 @@ for  i1 = 1 +win_radius: m - win_radius
         if (a1+b1) >= thr
             switch fliter_mode
                 case 'mean'
-                    img_out(i1,j1) = mean(img_temp,'all');
+                    img_out(i1,j1) = mean(mean(img_temp));
                 case 'gaussW'
                     w= fspecial('gaussian',[win_size,win_size],sigma);
                     img_out(i1,j1) =  sum(img_temp.*w,'all')/sum(w,'all');
@@ -55,5 +55,5 @@ for  i1 = 1 +win_radius: m - win_radius
     end
 end
 % figure;imshow(uint8(img));
-imwrite(uint8(img_out),[conf.save_file,conf.imgname,'_Pre_',fliter_pre_mode,'_Fliter_',fliter_mode,'_F2_',fliter2_mode,'_win',num2str(win_size),'_thr',num2str(thr),'.bmp']);
+imwrite((img_out),[conf.save_file,conf.imgname,'_Pre_',fliter_pre_mode,'_Fliter_',fliter_mode,'_F2_',fliter2_mode,'_win',num2str(win_size),'_thr',num2str(thr),'.bmp']);
 % figure;imshow(uint8(img_out));

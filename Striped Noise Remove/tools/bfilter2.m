@@ -52,10 +52,6 @@ function B = bfltGray(A,w,sigma_d,sigma_r)
 % G = exp(-(X.^2)/(sigma_d^2));
 G = exp(-(X.^2+Y.^2)/(2*sigma_d^2));
 
-% Create waitbar.
-h = waitbar(0,'Applying bilateral filter...');
-set(h,'Name','Bilateral Filter Progress');
-
 % Apply bilateral filter.
 dim = size(A);
 B = zeros(dim);
@@ -77,11 +73,8 @@ for i = 1:dim(1)
          B(i,j) = sum(F(:).*I(:))/sum(F(:));
                
    end
-   waitbar(i/dim(1));
 end
 
-% Close waitbar.
-close(h);
 
 
 
