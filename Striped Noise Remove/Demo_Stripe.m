@@ -21,10 +21,10 @@ data_type = 'bmp'; % raw: raw data
                     %bmp: bmp data
 conf.save_file = '.\result\';
 
-flag_win_mean = 1; %局部窗口均值处理
-flag_bilateral = 1; %双边滤波分离条纹噪声
+flag_win_mean = 0; %局部窗口均值处理
+flag_bilateral = 0; %双边滤波分离条纹噪声
 flag_win_mean_LP = 0; %窗口均值分离高频信息
-
+flag_MIRE = 1; %中值直方图
 
 conf.noise_type = 'colstripe';% rowstripe or colstripe，
 
@@ -70,6 +70,10 @@ for i = 1:img_num
         img_out = DeSN_LP_mean(img_gray,conf);
     end
 
+    if flag_MIRE == 1
+        
+        img_out = DeSN_MIRE(img_gray,conf);
+    end
     
 end
 
