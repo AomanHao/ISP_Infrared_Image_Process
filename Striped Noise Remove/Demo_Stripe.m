@@ -30,8 +30,6 @@ conf.noise_type = 'colstripe';% rowstripe or colstripe£¬
 
 for i = 1:img_num
     switch data_type
-        case 'raw'
-
         case 'bmp'
             name = split(img_name{i+2},'.');
             conf.imgname = name{1};
