@@ -1,9 +1,10 @@
-%% 程序分享
+%% 
 % 个人博客 www.aomanhao.top
 % Github https://github.com/AomanHao
 % CSDN https://blog.csdn.net/Aoman_Hao
+% Zhihu https://www.zhihu.com/people/aomanhao-hao
 %--------------------------------------
-%% 细节增强测试
+%% Detail Enhancement Test Code
 clear;
 close all;
 clc;
@@ -16,14 +17,13 @@ img_conf = dir(pathname);
 img_name = {img_conf.name};
 img_num = numel({img_conf.name})-2;
 
-data_type = 'bmp'; % raw: raw data
-%bmp: bmp data
+data_type = 'bmp'; %bmp: bmp data
 conf.savepath = './result/';
 if ~exist(conf.savepath,'var')
     mkdir(conf.savepath)
 end
 
-method = 'multiScale_imp';%multiScale_paper,multiScale_imp,Super_Sharpen
+method = 'multiScale_paper';%multiScale_paper\multiScale_imp\Super_Sharpen
 conf.remake=[];
 for i = 1:img_num
     switch data_type
@@ -47,13 +47,14 @@ for i = 1:img_num
     %% Single channel data only
     switch method
         case 'multiScale_paper'
+            %《Dark image enhancement based onpairwise target contrast and multi-scale detail boosting》
             Radius = 5;
             d_out = multiScale_paper( img_y, Radius);
         case 'multiScale_imp'
-            % multiScaleSharpen
+            % multiScale Sharpen Improved algorithm
             conf.Radius = 5;
             conf.type = 'multi';% 'multi' or 'single' Scale
-            d_out = multiScaleSharpen( img_y, conf);
+            d_out = multiScale_Sharpen_imp( img_y, conf);
             
         case 'Super_Sharpen'
             %super sharpen by aomanhao
@@ -61,7 +62,6 @@ for i = 1:img_num
             d_out = super_sharpness_aomanhao(img_y,conf);
             
     end
-    
     
     figure;imshow(d_out);
 end
