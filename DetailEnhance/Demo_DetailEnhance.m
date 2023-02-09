@@ -23,7 +23,7 @@ if ~exist(conf.savepath,'var')
     mkdir(conf.savepath)
 end
 
-method = 'Super_Sharpe';
+method = 'multiScale_imp';%multiScale_paper,multiScale_imp,Super_Sharpen
 conf.remake=[];
 for i = 1:img_num
     switch data_type
@@ -46,7 +46,17 @@ for i = 1:img_num
     
     %% Single channel data only
     switch method
-        case 'Super_Sharpe'
+        case 'multiScale_paper'
+            Radius = 5;
+            d_out = multiScale_paper( img_y, Radius);
+        case 'multiScale_imp'
+            % multiScaleSharpen
+            conf.Radius = 5;
+            conf.type = 'multi';% 'multi' or 'single' Scale
+            d_out = multiScaleSharpen( img_y, conf);
+            
+        case 'Super_Sharpen'
+            %super sharpen by aomanhao
             conf.w = 0.8;
             d_out = super_sharpness_aomanhao(img_y,conf);
             
