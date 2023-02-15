@@ -12,7 +12,7 @@ clc;
 addpath('./method');
 addpath('./tools');
 
-pathname = './data/';
+pathname = './data2/';
 img_conf = dir(pathname);
 img_name = {img_conf.name};
 img_num = numel({img_conf.name})-2;
@@ -53,7 +53,7 @@ for i = 1:img_num
         case 'multiScale_imp'
             % multiScale Sharpen Improved algorithm
             conf.Radius = 5;
-            conf.type = 'multi';% 'multi' or 'single' Scale
+            conf.type = 'single';% 'single\multi_weak_weight\multi_mid_weight\multi_high_weight
             d_out = multiScale_Sharpen_imp( img_y, conf);
             
         case 'Super_Sharpen'
@@ -63,5 +63,6 @@ for i = 1:img_num
             
     end
     
-    figure;imshow(d_out);
+%     figure;imshow(d_out);
+    imwrite(d_out,[conf.savepath,conf.imgname,method,'.png'])
 end

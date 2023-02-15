@@ -18,17 +18,34 @@ D2=B1-B2;
 D3=B2-B3;
 %%
 beta = 3;
-w1=0.75*beta;
-w2=0.5*beta;
-w3=0.25*beta;
-
-switch conf.type 
+switch conf.type
     case 'single'
+        % Single channel detail enhancement
+        w1=0.75*beta;
         result=w1.*D1+src;
-    case 'multi'
+        
+    case 'multi_weak_weight'
+        % Multi-channel detail enhancement weight adjustment
+        w1=0.15*beta;
+        w2=0.75*beta;
+        w3=0.5*beta;
+        result=(1-w1.*sign(D1)).*D1+w2*D2+w3*D3+src;
+        
+    case 'multi_mid_weight'
+        % Multi-channel detail enhancement (negative D3)
+        w1=0.75*beta;
+        w2=0.5*beta;
+        w3=0.5*beta;
+        result=w1.*D1+w2*D2+(1-w3.*sign(D3)).*D3+src;
+        
+    case 'multi_high_weight'
+        % Multi-channel detail enhancement (all positive)
+        w1=0.75*beta;
+        w2=0.5*beta;
+        w3=0.25*beta;
         result=w1.*D1+w2*D2+w3*D3+src;
 end
-    
+
 
 % figure;imshow(dest), title('dest');
 end
