@@ -1,4 +1,4 @@
-%% 程序分享 
+%% 程序分享
 % 个人博客 www.aomanhao.top
 % Github https://github.com/AomanHao
 % CSDN https://blog.csdn.net/Aoman_Hao
@@ -18,13 +18,14 @@ img_name = {img_conf.name};
 img_num = numel({img_conf.name})-2;
 
 data_type = 'bmp'; % raw: raw data
-                    %bmp: bmp data
+%bmp: bmp data
 conf.save_file = '.\result\';
 
 flag_win_mean = 0; %局部窗口均值处理
 flag_bilateral = 0; %双边滤波分离条纹噪声
 flag_win_mean_LP = 0; %窗口均值分离高频信息
-flag_MIRE = 1; %中值直方图
+flag_MIRE = 0; %中值直方图
+flag_MeanCalcu = 1;%均值计算
 
 conf.noise_type = 'colstripe';% rowstripe or colstripe，
 
@@ -64,13 +65,19 @@ for i = 1:img_num
     
     %% 窗口均值分离
     if flag_win_mean_LP == 1
-
+        
         img_out = DeSN_LP_mean(img_gray,conf);
     end
-
+    
     if flag_MIRE == 1
         
         img_out = DeSN_MIRE(img_gray,conf);
+    end
+    
+    %% 均值计算
+    if flag_MeanCalcu == 1
+        img_out = DeSN_MeanCalcu(img_gray,conf);
+        figure;imshow(uint8(img_out));
     end
     
 end
